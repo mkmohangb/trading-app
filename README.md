@@ -1,3 +1,3 @@
 # trading-app
 
-Using kite API
+Using Zerodha Kite API
