@@ -22,13 +22,16 @@ function monitorSkew(context) {
     console.log("monitor skew")
     return new Promise((resolve, reject) => {
         const ticker = createTicker()
-        const callback = ({skew, strike, premium}) => {
+        const callback = ({strike, premium}) => {
+            const skew = ((Math.abs(premium[0]-premium[1])/Math.min(...premium)) * 100).toFixed(2)
             console.log("Skew/premium is ", skew,"%", premium)
-            context.command.data.strike = strike
-            context.command.data.premium = premium
-            resolve(context)
-            ticker.unsubscribe(callback)
-            ticker.close()
+            if (skew <= context.command.data.skew) {
+                context.command.data.strike = strike
+                context.command.data.premium = premium
+                resolve(context)
+                ticker.unsubscribe(callback)
+                ticker.close()
+            }
         }
         ticker.subscribe([context.command.data.instrument], callback, true, false)
     })

@@ -17,6 +17,7 @@ function writeTradeCommand(context){
             transaction_type: context.attributes.transaction_type,
             quantity: context.attributes.quantity,
             order_type: context.attributes.order_type,
+            skew: context.attributes.skew,
             stoploss: context.attributes.stoploss
         }
     }
@@ -38,6 +39,7 @@ function createHandler({messageStore}) {
             transaction_type: "SELL",
             quantity: body.lots * 50,
             order_type: "MARKET",
+            skew: body.skew,
             stoploss: body.sl
 
         }

@@ -20,6 +20,7 @@ function createExpressApp(config) {
     app.use('/login', login)
     app.use('/spot', spot)
     app.use('/atmStraddle', config.straddleApp.router)
+    app.use('/trades', config.tradesApp.router)
     return app
 }
 

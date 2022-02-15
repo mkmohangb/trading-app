@@ -87,7 +87,7 @@ function createTicker() {
 
     function onTicks(ticks) {
         console.log("Ticks: ", ticks.map(tick => tick.last_price))
-        if (monitorsl) {
+        if (monitorsl && cbk) {
             if (ticks.length === 2) {
                 cbk(ticks[0].last_price + ticks[1].last_price)
             }
@@ -124,11 +124,11 @@ function createTicker() {
             console.log(premiums.filter(premium => premium.strike == 'SPOT'), strikePremium)
             for (const [key, value] of Object.entries(strikePremium)) {
                 if (value[0].length == 2) {
-                    const skew = ((Math.abs(value[0][0]-value[0][1])/Math.min(...value[0])) * 100).toFixed(2)
-                    const curPremium = value[0][0] + value[0][1]
-                    console.log(key, skew,"%", curPremium)
-                    if (monitorskew && skew < 10) {
-                        cbk({skew, strike:value[1], premium: curPremium})
+                    //const skew = ((Math.abs(value[0][0]-value[0][1])/Math.min(...value[0])) * 100).toFixed(2)
+                    //const curPremium = value[0][0] + value[0][1]
+                    //console.log(key, skew,"%", curPremium)
+                    if (monitorskew && cbk) {
+                        cbk({strike:value[1], premium: value[0]})
                     }
                 }
             }
@@ -142,7 +142,7 @@ function createTicker() {
     }
 
     function onDisconnect(error) {
-        console.log("Closed connection on disconnect ", error.code);
+        console.log("Closed connection on disconnect ")
     }
 
     function onError(error) {
